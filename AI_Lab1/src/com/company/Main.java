@@ -29,9 +29,13 @@ public class Main {
         State target = new State(targetArea);
         //System.out.print(start.equals(start));
         SolutionFinderTree finderTree = new SolutionFinderTree(start);
-        SolutionFinderTree.Node result = finderTree.find(target);
+        long startTime = System.currentTimeMillis();
+        Node result = finderTree.find(target);
+        long endTime = System.currentTimeMillis();
         //result.getData().print();
+        System.out.println((double)(endTime-startTime));
         result.printWay();
+
 
     }
 }

@@ -2,10 +2,6 @@ package com.company;
 
 import java.util.LinkedList;
 import java.util.List;
-
-/**
- * Created by eugene on 11.02.16.
- */
 public class State {
     int[][] area = new int[4][4];
 
@@ -30,7 +26,7 @@ public class State {
         return true;
     }
 
-    List<State> openState() {
+    List<State> openState(List closedNodes) {
         List<State> states = new LinkedList<>();
         for (int i = 0; i < area.length - 1; i++) {
             for (int j = 0; j < area.length - 1; j++) {
@@ -38,10 +34,11 @@ public class State {
                 state.swap(i + 1, j, i, j + 1);
                 state.swap(i, j, i, j + 1);
                 state.swap(i + 1, j, i + 1, j + 1);
-                if (!state.equals(this))
+                /*if (!this.equals(state))
+                    states.add(state);*/
+                if(!closedNodes.contains(new Node(state,null)))
                     states.add(state);
             }
-
         }
         return states;
     }
