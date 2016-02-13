@@ -22,7 +22,7 @@ public class Node {
     public void printWay() {
         Node current = this;
         while (current != null) {
-            current.data.print();
+            System.out.println(current.data.toString());
             current = current.parent;
         }
     }

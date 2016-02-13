@@ -7,9 +7,11 @@ import java.util.Scanner;
 public class Main {
 
     static int[][] loadAreaFromFile(File file) throws FileNotFoundException {
-
-        int[][] array = new int[4][4];
         Scanner scanner = new Scanner(file);
+        int rows = scanner.nextInt();
+        int columns = scanner.nextInt();
+        int[][] array = new int[rows][columns];
+
         for (int i = 0; i < array.length; i++)
             for (int j = 0; j < array[0].length; j++) {
                 int tmp = scanner.nextInt();
@@ -27,12 +29,11 @@ public class Main {
 
         State start = new State(area);
         State target = new State(targetArea);
-        //System.out.print(start.equals(start));
+
         SolutionFinderTree finderTree = new SolutionFinderTree(start);
         long startTime = System.currentTimeMillis();
         Node result = finderTree.find(target);
         long endTime = System.currentTimeMillis();
-        //result.getData().print();
         System.out.println((double)(endTime-startTime));
         result.printWay();
 

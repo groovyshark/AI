@@ -3,11 +3,12 @@ package com.company;
 import java.util.LinkedList;
 import java.util.List;
 public class State {
-    int[][] area = new int[4][4];
+    int[][] area;
 
-    State(int[][] area) {
-        if (area.length != 4 || area[0].length != 4)
+    public State(int[][] area) {
+        if (area.length < 2 || area[0].length <2)
             throw new RuntimeException();
+        this.area = new int[area.length][area[0].length];
         for (int i = 0; i < area.length; i++)
             for (int j = 0; j < area[0].length; j++)
                 this.area[i][j] = area[i][j];
@@ -15,8 +16,8 @@ public class State {
     }
 
     @Override
-    public boolean equals(Object _state) {
-        State state = (State) _state;
+    public boolean equals(Object object) {
+        State state = (State) object;
         if (state == this)
             return true;
         for (int i = 0; i < area.length; i++)
@@ -26,16 +27,14 @@ public class State {
         return true;
     }
 
-    List<State> openState(List closedNodes) {
+    List openState(List closedNodes) {
         List<State> states = new LinkedList<>();
         for (int i = 0; i < area.length - 1; i++) {
-            for (int j = 0; j < area.length - 1; j++) {
+            for (int j = 0; j < area[0].length - 1; j++) {
                 State state = new State(area);
                 state.swap(i + 1, j, i, j + 1);
                 state.swap(i, j, i, j + 1);
                 state.swap(i + 1, j, i + 1, j + 1);
-                /*if (!this.equals(state))
-                    states.add(state);*/
                 if(!closedNodes.contains(new Node(state,null)))
                     states.add(state);
             }
@@ -49,13 +48,15 @@ public class State {
         area[i2][j2] = temp;
     }
 
-    public void print() {
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < area.length; i++) {
             for (int j = 0; j < area[0].length; j++)
-                System.out.print(area[i][j]+ " ");
-            System.out.println();
+                builder.append(area[i][j]+ " ");
+            builder.append("\n");
         }
-        System.out.println();
+        return builder.toString();
     }
 
 
