@@ -1,10 +1,8 @@
 package com.company;
 
 import java.util.List;
+import java.util.Stack;
 
-/**
- * Created by eugene on 11.02.16.
- */
 public class Node {
     private State data;
     private Node parent;
@@ -19,12 +17,16 @@ public class Node {
         this.parent = parent;
     }
 
-    public void printWay() {
+    public Stack<Node> printWay() {
+        Stack<Node> stack = new Stack<>();
         Node current = this;
+
         while (current != null) {
-            System.out.println(current.data.toString());
+            stack.add(current);
+            //System.out.println(current.data.toString());
             current = current.parent;
         }
+        return stack;
     }
 
     @Override

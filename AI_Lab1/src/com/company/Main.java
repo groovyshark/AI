@@ -2,7 +2,10 @@ package com.company;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
 
@@ -21,7 +24,7 @@ public class Main {
         return array;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         int[][] area = loadAreaFromFile(
                 new File("./resources/area.txt"));
         int[][] targetArea = loadAreaFromFile(
@@ -34,9 +37,19 @@ public class Main {
         long startTime = System.currentTimeMillis();
         Node result = finderTree.find(target);
         long endTime = System.currentTimeMillis();
-        System.out.println((double)(endTime-startTime));
-        result.printWay();
-
+        if(result==null) {
+            System.out.println("Решение не найдено!");
+            return;
+        }
+        System.out.println("Решение найдено!\nВремя нахождения решения(мс): "+ (double)(endTime-startTime)+"\n");
+        Stack<Node> stack = result.printWay();
+        FileWriter writer =  new FileWriter("./resources/solution.txt");
+        while (!stack.empty()) {
+            writer.append(stack.pop().getData().toString());
+            writer.append("\n");
+        }
+        writer.close();
+        System.out.println("Подробности решения в файле Solution.txt");
 
     }
 }
