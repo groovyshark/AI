@@ -27,7 +27,7 @@ public class State {
         return true;
     }
 
-    List openState(List closedNodes) {
+    List openState() {
         List<State> states = new LinkedList<>();
         for (int i = 0; i < area.length - 1; i++) {
             for (int j = 0; j < area[0].length - 1; j++) {
@@ -35,8 +35,7 @@ public class State {
                 state.swap(i + 1, j, i, j + 1);
                 state.swap(i, j, i, j + 1);
                 state.swap(i + 1, j, i + 1, j + 1);
-                if(!closedNodes.contains(new Node(state,null)))
-                    states.add(state);
+                states.add(state);
             }
         }
         return states;
