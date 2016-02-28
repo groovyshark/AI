@@ -36,7 +36,7 @@ public class Main {
         SolutionFinderTree finderTree = new SolutionFinderTree();
         long startTime = System.currentTimeMillis();
         //Node result = finderTree.find(start,target);
-        Node result = finderTree.findWithHeuristic(start,target,new StupidHeuristic());
+        Node result = finderTree.findWithHeuristic(start,target,new SmartHeuristic());
         long endTime = System.currentTimeMillis();
         if(result==null) {
             System.out.println("Решение не найдено!");
