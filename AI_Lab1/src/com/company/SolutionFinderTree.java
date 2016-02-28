@@ -19,25 +19,19 @@ public class SolutionFinderTree {
         openNodes.add(root);
 
         while (!openNodes.isEmpty()) {
-            Node temp = (Node) openNodes.poll();
+            Node current = (Node) openNodes.poll();
 
-            if (temp.getData().equals(target))
-                return temp;
+            if (current.getData().equals(target))
+                return current;
 
-            closeNodes.add(temp);
-            List<State> states = temp.getData().openState();
-
-            if (!states.isEmpty()) {
-                Iterator iterator = states.iterator();
-                Node child;
-                while (iterator.hasNext()) {
-                    child = new Node((State) iterator.next(), temp);
-                    if (!openNodes.contains(child) && !closeNodes.contains(child))
-                        openNodes.add(child);
-                }
+            closeNodes.add(current);
+            List<State> states = current.getData().openState();
+            for (State state : states) {
+                Node child = new Node(state, current);
+                if (!openNodes.contains(child) && !closeNodes.contains(child))
+                    openNodes.add(child);
             }
         }
-
         return null;
     }
 }
