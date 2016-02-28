@@ -3,10 +3,11 @@ package com.company;
 import java.util.List;
 import java.util.Stack;
 
-public class Node {
+public class Node implements Comparable<Node> {
     private State data;
     private Node parent;
     List<Node> children;
+    int fullCost = 0;
 
     public State getData() {
         return data;
@@ -15,6 +16,9 @@ public class Node {
     public Node(State data, Node parent) {
         this.data = data;
         this.parent = parent;
+        fullCost = data.getHeuristic();
+        if(this.parent!= null)
+            fullCost++;
     }
 
     public Stack<Node> printWay() {
@@ -37,5 +41,12 @@ public class Node {
             return true;
         else
             return false;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        if (this.fullCost < o.fullCost) return -1;
+        else if (this.fullCost > o.fullCost) return 1;
+        else return 0;
     }
 }

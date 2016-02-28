@@ -30,12 +30,13 @@ public class Main {
         int[][] targetArea = loadAreaFromFile(
                 new File("./resources/target.txt"));
 
-        State start = new State(area);
-        State target = new State(targetArea);
+        State target = new State(targetArea,null);
+        State start = new State(area,target);
 
-        SolutionFinderTree finderTree = new SolutionFinderTree(start);
+        SolutionFinderTree finderTree = new SolutionFinderTree();
         long startTime = System.currentTimeMillis();
-        Node result = finderTree.find(target);
+        //Node result = finderTree.find(start,target);
+        Node result = finderTree.findWithHeuristic(start,target,new StupidHeuristic());
         long endTime = System.currentTimeMillis();
         if(result==null) {
             System.out.println("Решение не найдено!");

@@ -4,6 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 public class State {
     int[][] area;
+    State target;
+    AbstractHeuristic heuristic;
+
+    public void setHeuristic(AbstractHeuristic heuristic) {
+        this.heuristic = heuristic;
+    }
+
+
 
     public State(int[][] area) {
         if (area.length < 2 || area[0].length <2)
@@ -13,6 +21,11 @@ public class State {
             for (int j = 0; j < area[0].length; j++)
                 this.area[i][j] = area[i][j];
 
+    }
+
+    public State(int[][] area,State target){
+        this(area);
+        this.target = target;
     }
 
     @Override
@@ -31,11 +44,28 @@ public class State {
         List<State> states = new LinkedList<>();
         for (int i = 0; i < area.length - 1; i++) {
             for (int j = 0; j < area[0].length - 1; j++) {
-                State state = new State(area);
+                State state = new State(area,this.target);
                 state.swap(i + 1, j, i, j + 1);
                 state.swap(i, j, i, j + 1);
                 state.swap(i + 1, j, i + 1, j + 1);
-                states.add(state);
+                if(!this.equals(state))
+                    states.add(state);
+            }
+        }
+        return states;
+    }
+
+    List openState(AbstractHeuristic heuristic) {
+        List<State> states = new LinkedList<>();
+        for (int i = 0; i < area.length - 1; i++) {
+            for (int j = 0; j < area[0].length - 1; j++) {
+                State state = new State(area,this.target);
+                state.swap(i + 1, j, i, j + 1);
+                state.swap(i, j, i, j + 1);
+                state.swap(i + 1, j, i + 1, j + 1);
+                state.setHeuristic(heuristic);
+                if(!this.equals(state))
+                    states.add(state);
             }
         }
         return states;
@@ -58,5 +88,7 @@ public class State {
         return builder.toString();
     }
 
-
+    public int getHeuristic(){
+        return heuristic.getHeuristic(this,target);
+    }
 }
